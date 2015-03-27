@@ -1,9 +1,8 @@
-require 'net/http'
 include_recipe 'route53'
 
 route53_record "create a record" do
-  name  "#{node[:opsworks][:instance][:name]}.#{node[:opsworks][:instance][:name]}.example.com"
-  value node[:ec2][:public_hostname]
+  name  "#{node[:opsworks][:instance][:hostname]}.#{node[:opsworks][:stack][:name]}.example.com"
+  value node[:opsworks][:instance][:public_dns_name]
   type  "CNAME"
   ttl   60
   zone_id               node[:dns_zone_id]
@@ -12,4 +11,3 @@ route53_record "create a record" do
   overwrite true
   action :create
 end
-
